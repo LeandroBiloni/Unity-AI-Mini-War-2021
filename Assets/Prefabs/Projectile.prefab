@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -710349995142860829}
   - component: {fileID: -4378191784244709184}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,8 +94,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  dir: {x: 0.40677488, y: 0, z: 0.91352844}
-  damage: 20
+  dir: {x: 0, y: 0, z: 0}
+  damage: 0
   selectedTeam: 0
 --- !u!136 &-710349995142860829
 CapsuleCollider:

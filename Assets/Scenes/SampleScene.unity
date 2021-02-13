@@ -4424,7 +4424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leaders: []
-  offset: {x: 0, y: 100, z: 0}
+  offset: {x: 0, y: 120, z: 0}
   smooth: 1
   minZoom: 40
   maxZoom: 180
@@ -5075,7 +5075,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 72
+  m_fontSize: 65.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6212,7 +6212,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 72
+  m_fontSize: 65.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6962,7 +6962,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 61.75
+  m_fontSize: 48.35
   m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7008,7 +7008,7 @@ MonoBehaviour:
     spaceCount: 3
     wordCount: 4
     linkCount: 0
-    lineCount: 2
+    lineCount: 1
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -7529,7 +7529,7 @@ PrefabInstance:
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -41
+      value: -34.2
       objectReference: {fileID: 0}
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
@@ -7539,7 +7539,7 @@ PrefabInstance:
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 42.300003
+      value: 42.8
       objectReference: {fileID: 0}
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
@@ -9418,7 +9418,7 @@ PrefabInstance:
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.5
+      value: 34.8
       objectReference: {fileID: 0}
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
@@ -9428,7 +9428,7 @@ PrefabInstance:
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -45.1
+      value: -38.7
       objectReference: {fileID: 0}
     - target: {fileID: 670174963583292627, guid: a1acf383538d8a24c9808c761b8b6cbb,
         type: 3}
