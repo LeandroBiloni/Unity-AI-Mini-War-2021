@@ -180,14 +180,26 @@ public class Leader : Being
     }
     #endregion
 
-    public override void Move(Vector3 dir)
+    public override void Move()
     {
         transform.LookAt(EnemyTeamCenter());
+        Vector3 dir = Vector3.zero;
+        dir += (EnemyTeamCenter() - transform.position).normalized;
         dir += obstacleAvoidance.GetDir();
         dir.y = 0;
         transform.position += dir * speed * Time.deltaTime;
     }
+    public override void Escape()
+    {
+        Vector3 dir = Vector3.zero;
 
+        dir += (EnemyTeamCenter() - transform.position).normalized;
+        dir += obstacleAvoidance.GetDir();
+        dir = dir * -1;
+        dir.y = 0;
+        transform.position += dir * speed * Time.deltaTime;
+        transform.LookAt(EnemyTeamCenter() * -1);
+    }
     public void BuffAllies(string action)
     {
         //Busco los aliados cercanos y aplico un buff --- Hacer varios buff para que sea random

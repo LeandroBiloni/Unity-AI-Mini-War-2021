@@ -28,6 +28,7 @@ public class AttackState<T> : States<T>
         if (_leader)
         {
             _leader.mesh.material = _leader.defaultMaterial;
+            _leader.transform.LookAt(_leader.GetClosestEnemy());
             if (_leaderFlags.inCooldown == false)
             {
                 _leader.Attack();
@@ -47,6 +48,7 @@ public class AttackState<T> : States<T>
         if (_follower)
         {
             _follower.mesh.material = _follower.defaultMaterial;
+            _follower.transform.LookAt(_follower.GetClosestEnemy());
             if (_followerFlags.inCooldown == false)
             {
                 _follower.Attack();

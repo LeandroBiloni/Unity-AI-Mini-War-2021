@@ -29,9 +29,7 @@ public class FollowState<T> : States<T>
 
         if (_flags.isCloseToLeader == false)
         {
-            Vector3 dir = (_leader.position - _follower.transform.position).normalized;
-            dir.y = 0;
-            _follower.Move(dir);
+            _follower.Move();
         }
         else _treeStart.Execute();
     }

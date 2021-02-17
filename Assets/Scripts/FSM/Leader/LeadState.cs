@@ -28,9 +28,7 @@ public class LeadState<T> : States<T>
 
         if (_flags.inMiddle == false)
         {
-            //Paso la direccion
-            Vector3 dir = (enemyTeamCenter - _leader.transform.position).normalized;
-            _leader.Move(dir);
+            _leader.Move();
         }
         else
         {

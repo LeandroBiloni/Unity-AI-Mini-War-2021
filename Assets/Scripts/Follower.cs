@@ -27,9 +27,6 @@ public class Follower : Being
 
     public SkinnedMeshRenderer mesh;
 
-    LeaderBehavior _leaderBehavior;
-    AwayBehavior _awayBehavior;
-
     public override void Awake()
     {
         base.Awake();
@@ -45,38 +42,35 @@ public class Follower : Being
                 return;
             }
         }
-
-        
-
     }
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         flock = GetComponent<FlockEntity>();
-        _leaderBehavior = GetComponent<LeaderBehavior>();
-        _awayBehavior = GetComponent<AwayBehavior>();
     }
-
-    public override void Move(Vector3 dir)
+    public override void Move()
     {
-        //if (DistanceToLeader() <= stopDist)
-        //{
-        //    _awayBehavior.awayWeight += 1;
-        //    _leaderBehavior.leaderWeight -= 1;
-        //}
-        //else
-        //{
-        //    _awayBehavior.awayWeight -= 1;
-        //    _leaderBehavior.leaderWeight += 1;
-        //}
-
+        Vector3 dir = Vector3.zero;
         dir += flock.GetDir();
         dir += obstacleAvoidance.GetDir();
         dir.y = 0;
         transform.position += dir * speed * ( DistanceToLeader() / 10) * Time.deltaTime;
         if (flags.isCloseToLeader == false)
             transform.LookAt(myLeader);
+    }
+
+    public override void Escape()
+    {
+        Vector3 dir = Vector3.zero;
+
+        dir += (EnemyTeamCenter() - transform.position).normalized;
+        dir += flock.GetDir();
+        dir += obstacleAvoidance.GetDir();
+        dir = dir * -1;
+        dir.y = 0;
+        transform.position += dir * speed * Time.deltaTime;
+        transform.LookAt(EnemyTeamCenter() * -1);
     }
     public override void StartFSM()
     {
@@ -201,10 +195,15 @@ public class Follower : Being
     public override void Idle()
     {
         mesh.material = idleMaterial;
+        rb.velocity = Vector3.zero;
         if (DistanceToLeader() <= stopDist)
         {
-            Vector3 dir = (myLeader.position - transform.position).normalized * -1;
-            Move(dir);
+            Vector3 dir = Vector3.zero;
+            dir += (myLeader.position - transform.position).normalized;
+            dir += flock.GetDir();
+            dir.y = 0;
+            dir = dir * -1;
+            transform.position += dir * speed * Time.deltaTime;
         }
     }
 }

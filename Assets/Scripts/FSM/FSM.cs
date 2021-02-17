@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FSM<T>
 {
-	States<T> _currentState;
+	public States<T> _currentState;
 
 	public FSM(States<T> state)
 	{
@@ -20,6 +20,7 @@ public class FSM<T>
 
 	public void OnUpdate()
 	{
+		
 		_currentState.Execute();
 	} 
 

@@ -32,17 +32,14 @@ public class EscapeState<T> : States<T>
         if (_leader)
         {
             _leader.mesh.material = _leader.defaultMaterial;
-            dir = (_leader.EnemyTeamCenter() - _leader.transform.position).normalized;
-            dir = dir * -1;
-            _leader.Move(dir);
+            
+            _leader.Escape();
         }
         
         if (_follower)
         {
             _follower.mesh.material = _follower.defaultMaterial;
-            dir = (_follower.EnemyTeamCenter() - _follower.transform.position).normalized;
-            dir = dir * -1;
-            _follower.Move(dir);
+            _follower.Escape();
         }
         _treeStart.Execute();
     }

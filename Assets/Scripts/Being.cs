@@ -87,16 +87,19 @@ public abstract class Being : Teams
 
     public virtual void Update()
     {
-        if (stopUpdate == false)
+        if (stopUpdate == false && test == false)
         {
             if (currentHP <= 0)
                 Dead();
             fsm.OnUpdate();
+            Debug.Log("current state: " + fsm._currentState.ToString() + "object: " + gameObject.name);
             PassiveHPRegen();
         }
     }
 
-    public abstract void Move(Vector3 dir);
+    public abstract void Move();
+
+    public abstract void Escape();
 
     public abstract void StartFSM();
 

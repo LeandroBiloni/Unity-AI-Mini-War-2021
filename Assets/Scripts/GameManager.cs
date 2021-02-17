@@ -7,6 +7,8 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public float minSpawnDist;
+    public float maxSpawnDist;
     public Leader blueLeader;
     public Leader redLeader;
     public List<Being> entities;
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     Follower blue = Instantiate(blueFollower, blueSpawn, false);
-                    blue.transform.localPosition = new Vector3(Random.Range(1, 25), 0, Random.Range(1, 25));
+                    blue.transform.localPosition = new Vector3(Random.Range(minSpawnDist, maxSpawnDist), 0, Random.Range(minSpawnDist, maxSpawnDist));
                     blue.transform.localScale = new Vector3(1f, 1f, 1f);
                     blue.myLeader = blueLeader.transform;
                     blue.rb.isKinematic = true;
@@ -117,7 +119,7 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < 5; i++)
                 {
                     Follower red = Instantiate(redFollower, redSpawn, false);
-                    red.transform.localPosition = new Vector3(Random.Range(1, 25), 0, Random.Range(1, 25));
+                    red.transform.localPosition = new Vector3(Random.Range(minSpawnDist, maxSpawnDist), 0, Random.Range(minSpawnDist, maxSpawnDist));
                     red.transform.localScale = new Vector3(1f, 1f, 1f);
                     red.myLeader = redLeader.transform;
                     red.rb.isKinematic = true;
