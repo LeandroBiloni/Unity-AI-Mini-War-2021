@@ -859,7 +859,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   flock: {fileID: 0}
   myLeader: {fileID: 0}
-  stopDist: 5
+  stopDist: 2
   instanceNumber: 0
   mesh: {fileID: 137976475885954992}
 --- !u!114 &179462270568592283
@@ -890,7 +890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a901b79f0d2b04c42a192e35e2f12339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alineationWeight: 5
+  alineationWeight: 50
 --- !u!114 &8844417578649153470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08071b460bbd51847940e038e2142cb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CohesionWeight: 5
+  CohesionWeight: 50
 --- !u!114 &-6769813495609743931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,7 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5419b91b494f94490106fe647971ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leaderWeight: 10
+  leaderWeight: 15
   target: {fileID: 0}
 --- !u!114 &4853769211176498725
 MonoBehaviour:
@@ -930,8 +930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5201a0cc979eabf4c8e691338af8f03e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationWeight: 5
-  range: 5
+  separationWeight: 2
+  range: 1
 --- !u!114 &-4109534911998710726
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -60,22 +60,22 @@ public class Follower : Being
 
     public override void Move(Vector3 dir)
     {
-        if (DistanceToLeader() <= stopDist)
-        {
-            _awayBehavior.awayWeight += 1;
-            _leaderBehavior.leaderWeight -= 1;
-        }
-        else
-        {
-            _awayBehavior.awayWeight -= 1;
-            _leaderBehavior.leaderWeight += 1;
-        }
+        //if (DistanceToLeader() <= stopDist)
+        //{
+        //    _awayBehavior.awayWeight += 1;
+        //    _leaderBehavior.leaderWeight -= 1;
+        //}
+        //else
+        //{
+        //    _awayBehavior.awayWeight -= 1;
+        //    _leaderBehavior.leaderWeight += 1;
+        //}
 
         dir += flock.GetDir();
         dir += obstacleAvoidance.GetDir();
         dir.y = 0;
         transform.position += dir * speed * ( DistanceToLeader() / 10) * Time.deltaTime;
-        if (flags.escape == false)
+        if (flags.isCloseToLeader == false)
             transform.LookAt(myLeader);
     }
     public override void StartFSM()
@@ -201,5 +201,10 @@ public class Follower : Being
     public override void Idle()
     {
         mesh.material = idleMaterial;
+        if (DistanceToLeader() <= stopDist)
+        {
+            Vector3 dir = (myLeader.position - transform.position).normalized * -1;
+            Move(dir);
+        }
     }
 }
