@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     public GameObject winBG;
     public GameObject winBlue;
     public GameObject winRed;
+    public GameObject addRedButton;
+    public GameObject addBlueButton;
+    public GameObject startButton;
+    public GameObject reloadButton;
 
     public Image blueHPBar;
     public Image redHPBar;
@@ -39,6 +43,8 @@ public class GameManager : MonoBehaviour
         winBG.SetActive(false);
         winBlue.SetActive(false);
         winRed.SetActive(false);
+        startButton.SetActive(true);
+        reloadButton.SetActive(false);
         blueTeamCounter.text = "0";
         redTeamCounter.text = "0";
     }
@@ -84,6 +90,8 @@ public class GameManager : MonoBehaviour
     public void StartSimulation()
     {
         GetEnemies();
+        addBlueButton.SetActive(false);
+        addRedButton.SetActive(false);
         foreach (var entity in entities)
         {
             if (entity)
@@ -92,6 +100,8 @@ public class GameManager : MonoBehaviour
                 entity.StartWorking();
             }
         }
+        startButton.SetActive(false);
+        reloadButton.SetActive(true);
     }
 
     public void AddAI(int team)
@@ -138,10 +148,31 @@ public class GameManager : MonoBehaviour
     public void UpdateHP(Teams.Team team, float maxHP, float currentHP)
     {
         if (team == Teams.Team.Blue)
+        {
             blueHPBar.fillAmount = currentHP / maxHP;
+            if (currentHP > maxHP / 2)
+                blueHPBar.color = new Color(0f, 0.5754717f, 0.1331484f);
+
+            if (currentHP <= maxHP / 2 && currentHP > maxHP / 4)
+                blueHPBar.color = Color.yellow;
+
+            if (currentHP <= maxHP / 4)
+                blueHPBar.color = Color.red;
+
+        }
 
         if (team == Teams.Team.Red)
+        {
             redHPBar.fillAmount = currentHP / maxHP;
+            if (currentHP > maxHP / 2)
+                redHPBar.color = new Color(0f, 0.5754717f, 0.1331484f);
+
+            if (currentHP <= maxHP / 2 && currentHP > maxHP / 4)
+                redHPBar.color = Color.yellow;
+
+            if (currentHP <= maxHP / 4)
+                redHPBar.color = Color.red;
+        }
     }
 
     public void ReloadScene()

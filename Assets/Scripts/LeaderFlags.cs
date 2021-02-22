@@ -6,7 +6,7 @@ public class LeaderFlags
 {
     public bool inMiddle = false;
     public bool inSight = false;
-    public bool inCooldown = false;
+    public bool canShoot = false;
     public bool buffAvailable = true;
     public bool lowHP = false;
     public bool halfHP = false;

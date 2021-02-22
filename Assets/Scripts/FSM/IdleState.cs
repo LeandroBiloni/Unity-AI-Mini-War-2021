@@ -39,6 +39,7 @@ public class IdleState<T> : States<T>
                 if ((enemyTeamCenter - _leader.transform.position).magnitude > _leader.leadStopDistance)
                     _leaderFlags.inMiddle = false;
             }
+            _leader.rb.isKinematic = false;
         }
 
         if (_follower)
@@ -55,6 +56,7 @@ public class IdleState<T> : States<T>
 
                 else _followerFlags.isCloseToLeader = false;
             }
+            _follower.rb.isKinematic = false;
         }
         _treeStart.Execute();
     }

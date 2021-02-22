@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ef4e7e3ee7d26458cf797a3e54210c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionForGizmo: {x: 0, y: 0, z: 0}
   selectedTeam: 0
   maxHP: 300
   currentHP: 100
@@ -125,8 +126,8 @@ MonoBehaviour:
   obstacle:
     serializedVersion: 2
     m_Bits: 1024
-  obstacleAvoidRadius: 2
-  obstacleAvoidWeight: 10
+  obstacleAvoidRadius: 3
+  obstacleAvoidWeight: 15
   test: 0
   idleMaterial: {fileID: 0}
   defaultMaterial: {fileID: 0}
@@ -142,7 +143,7 @@ MonoBehaviour:
   extraHealthValue: 50
   rb: {fileID: 0}
   manager: {fileID: 0}
-  leadStopDistance: 0.1
+  leadStopDistance: 3
   buffRange: 10
   mesh: {fileID: 670174963583292625}
 --- !u!114 &670174963583292620

@@ -16,12 +16,13 @@ public class Follower : Being
     FollowState<states> _followState;
     AttackState<states> _attackState;
     EscapeState<states> _escapeState;
-
+    ReloadState<states> _reloadState;
     //Decision Tree
     ActionNode _idleAction;
     ActionNode _followAction;
     ActionNode _attackAction;
     ActionNode _escapeAction;
+    ActionNode _reloadAction;
 
     INode _treeStartPoint;
 
@@ -55,6 +56,7 @@ public class Follower : Being
         dir += flock.GetDir();
         dir += obstacleAvoidance.GetDir();
         dir.y = 0;
+        directionForGizmo = dir;
         transform.position += dir * speed * ( DistanceToLeader() / 10) * Time.deltaTime;
         if (flags.isCloseToLeader == false)
             transform.LookAt(myLeader);
@@ -69,6 +71,7 @@ public class Follower : Being
         dir += obstacleAvoidance.GetDir();
         dir = dir * -1;
         dir.y = 0;
+        directionForGizmo = dir;
         transform.position += dir * speed * Time.deltaTime;
         transform.LookAt(EnemyTeamCenter() * -1);
     }
@@ -78,22 +81,32 @@ public class Follower : Being
         _followState = new FollowState<states>(this, myLeader, flags, _treeStartPoint, stopDist);
         _attackState = new AttackState<states>(this, flags, _treeStartPoint);
         _escapeState = new EscapeState<states>(this, flags, _treeStartPoint);
+        _reloadState = new ReloadState<states>(this, flags, _treeStartPoint);
 
         fsm = new FSM<states>(_idleState);
 
         _idleState.AddTransition(states.Follow, _followState);
         _idleState.AddTransition(states.Attack, _attackState);
         _idleState.AddTransition(states.Escape, _escapeState);
+        _idleState.AddTransition(states.Reload, _reloadState);
 
         _followState.AddTransition(states.Idle, _idleState);
         _followState.AddTransition(states.Attack, _attackState);
         _followState.AddTransition(states.Escape, _escapeState);
+        _followState.AddTransition(states.Reload, _reloadState);
 
         _attackState.AddTransition(states.Idle, _idleState);
         _attackState.AddTransition(states.Follow, _followState);
         _attackState.AddTransition(states.Escape, _escapeState);
+        _attackState.AddTransition(states.Reload, _reloadState);
+
+        _reloadState.AddTransition(states.Idle, _idleState);
+        _reloadState.AddTransition(states.Attack, _attackState);
+        _reloadState.AddTransition(states.Follow, _followState);
+        _reloadState.AddTransition(states.Escape, _escapeState);
 
         _escapeState.AddTransition(states.Idle, _idleState);
+        _escapeState.AddTransition(states.Follow, _followState);
 
         fsm.SetState(_idleState);
     }
@@ -104,8 +117,10 @@ public class Follower : Being
         _followAction = new ActionNode(FollowAction);
         _attackAction = new ActionNode(AttackAction);
         _escapeAction = new ActionNode(EscapeAction);
+        _reloadAction = new ActionNode(ReloadAction);
 
-        var questionInSight = new QuestionNode(InSightQuestion, _attackAction, _idleAction);
+        var questionCanShoot = new QuestionNode(CanShootQuestion, _attackAction, _reloadAction);
+        var questionInSight = new QuestionNode(InSightQuestion, questionCanShoot, _idleAction);
         var questionSafe = new QuestionNode(SafeDistanceQuestion, _idleAction, _escapeAction);
         var questionCloseToLeader = new QuestionNode(IsCloseToLeaderQuestion, questionInSight, _followAction);
         var questionLowHP = new QuestionNode(LowHPQuestion, questionSafe, questionCloseToLeader);
@@ -132,6 +147,11 @@ public class Follower : Being
     public void FollowAction()
     {
         fsm.Transition(states.Follow);
+    }
+
+    public void ReloadAction()
+    {
+        fsm.Transition(states.Reload);
     }
     #endregion
 
@@ -170,7 +190,14 @@ public class Follower : Being
         Transform closestEnemy = GetClosestEnemy();
         transform.LookAt(closestEnemy);
         flags.inSight = lineOfSight.IsInSight(closestEnemy);
+        if (flags.inSight)
+            Debug.Log("insight");
         return flags.inSight;
+    }
+
+    public bool CanShootQuestion()
+    {
+        return flags.canShoot;
     }
 
     public bool IsCloseToLeaderQuestion()
@@ -195,15 +222,19 @@ public class Follower : Being
     public override void Idle()
     {
         mesh.material = idleMaterial;
-        rb.velocity = Vector3.zero;
+        rb.isKinematic = true;
         if (DistanceToLeader() <= stopDist)
         {
             Vector3 dir = Vector3.zero;
-            dir += (myLeader.position - transform.position).normalized;
-            dir += flock.GetDir();
-            dir.y = 0;
-            dir = dir * -1;
-            transform.position += dir * speed * Time.deltaTime;
+            if (transform != null)
+            {
+                dir += (myLeader.position - transform.position).normalized;
+                dir += flock.GetDir();
+                dir.y = 0;
+                dir = dir * -1;
+                directionForGizmo = dir;
+                transform.position += dir * speed * Time.deltaTime;
+            }
         }
     }
 }

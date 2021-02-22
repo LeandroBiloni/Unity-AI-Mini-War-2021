@@ -27,42 +27,20 @@ public class AttackState<T> : States<T>
     {
         if (_leader)
         {
+            
             _leader.mesh.material = _leader.defaultMaterial;
             _leader.transform.LookAt(_leader.GetClosestEnemy());
-            if (_leaderFlags.inCooldown == false)
-            {
-                _leader.Attack();
-                _leaderFlags.inCooldown = true;
-            }
-            else
-            {
-                _leader.currentCooldown += Time.deltaTime;
-                if (_leader.currentCooldown >= _leader.cooldown)
-                {
-                    _leader.currentCooldown = 0;
-                    _leaderFlags.inCooldown = false;
-                }
-            }
+            _leader.Attack();
+            _leaderFlags.canShoot = false;
         }
         
         if (_follower)
         {
+            Debug.Log("ataco");
             _follower.mesh.material = _follower.defaultMaterial;
             _follower.transform.LookAt(_follower.GetClosestEnemy());
-            if (_followerFlags.inCooldown == false)
-            {
-                _follower.Attack();
-                _followerFlags.inCooldown = true;
-            }
-            else
-            {
-                _follower.currentCooldown += Time.deltaTime;
-                if (_follower.currentCooldown >= _follower.cooldown)
-                {
-                    _follower.currentCooldown = 0;
-                    _followerFlags.inCooldown = false;
-                }
-            }
+            _follower.Attack();
+            _followerFlags.canShoot = false;
         }
         _treeStart.Execute();
     }

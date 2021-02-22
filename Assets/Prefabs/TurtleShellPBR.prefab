@@ -823,6 +823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf6454790145ea4ca48167a37f231dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionForGizmo: {x: 0, y: 0, z: 0}
   selectedTeam: 0
   maxHP: 100
   currentHP: 100
@@ -830,7 +831,7 @@ MonoBehaviour:
   passiveHPRegen: 5
   speed: 7
   damage: 25
-  projectile: {fileID: 6641199190975227325, guid: d8d1ff99f19d5564a8897f2d17ec73b1,
+  projectile: {fileID: 6382447148613645164, guid: f2a635a9f27b01548b2eff94ea9c6ca6,
     type: 3}
   projectileSpawn: {fileID: 7304445537204257398}
   cooldown: 2
@@ -840,7 +841,7 @@ MonoBehaviour:
   obstacle:
     serializedVersion: 2
     m_Bits: 1024
-  obstacleAvoidRadius: 2
+  obstacleAvoidRadius: 3
   obstacleAvoidWeight: 50
   test: 0
   idleMaterial: {fileID: 2100000, guid: 0b88e67f71abaa64886ce543a7d7109f, type: 2}
@@ -859,7 +860,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   flock: {fileID: 0}
   myLeader: {fileID: 0}
-  stopDist: 5
+  stopDist: 4
   instanceNumber: 0
   mesh: {fileID: 137976475885954992}
 --- !u!114 &179462270568592283

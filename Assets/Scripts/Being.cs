@@ -5,9 +5,10 @@ using UnityEngine;
 
 public abstract class Being : Teams
 {
+    public Vector3 directionForGizmo;
     public enum states
     {
-        Idle, Follow, Lead, Attack, Buff, Escape
+        Idle, Follow, Lead, Attack, Buff, Escape, Reload
     }
     public FSM<states> fsm;
     public Team selectedTeam;
@@ -77,7 +78,7 @@ public abstract class Being : Teams
     public virtual void Start()
     {
         currentHP = maxHP;
-        
+        currentCooldown = cooldown;
         if (test == false)
         {
             StartTree();
@@ -92,7 +93,6 @@ public abstract class Being : Teams
             if (currentHP <= 0)
                 Dead();
             fsm.OnUpdate();
-            Debug.Log("current state: " + fsm._currentState.ToString() + "object: " + gameObject.name);
             PassiveHPRegen();
         }
     }
@@ -242,4 +242,6 @@ public abstract class Being : Teams
             }
         }
     }
+
+    
 }

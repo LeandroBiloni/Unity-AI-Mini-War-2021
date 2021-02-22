@@ -22,6 +22,7 @@ public class Leader : Being
     BuffState<states> _buffState;
     EscapeState<states> _escapeState;
     IdleState<states> _idleState;
+    ReloadState<states> _reloadState;
 
     //Decision Tree
     ActionNode _idleAction;
@@ -29,6 +30,7 @@ public class Leader : Being
     ActionNode _attackAction;
     ActionNode _buffAction;
     ActionNode _escapeAction;
+    ActionNode _reloadAction;
 
     INode _treeStartPoint;
 
@@ -51,6 +53,7 @@ public class Leader : Being
         _buffState = new BuffState<states>(this, flags, _treeStartPoint);
         _escapeState = new EscapeState<states>(this, flags, _treeStartPoint);
         _idleState = new IdleState<states>(this, flags, _treeStartPoint);
+        _reloadState = new ReloadState<states>(this, flags, _treeStartPoint);
         
         fsm = new FSM<states>(_idleState);
 
@@ -58,23 +61,34 @@ public class Leader : Being
         _idleState.AddTransition(states.Buff, _buffState);
         _idleState.AddTransition(states.Lead, _leadState);
         _idleState.AddTransition(states.Escape, _escapeState);
-        
+        _idleState.AddTransition(states.Reload, _reloadState);
+
         _leadState.AddTransition(states.Attack, _attackState);
         _leadState.AddTransition(states.Buff, _buffState);
         _leadState.AddTransition(states.Escape, _escapeState);
         _leadState.AddTransition(states.Idle, _idleState);
+        _leadState.AddTransition(states.Reload, _reloadState);
 
         _attackState.AddTransition(states.Lead, _leadState);
         _attackState.AddTransition(states.Buff, _buffState);
         _attackState.AddTransition(states.Escape, _escapeState);
         _attackState.AddTransition(states.Idle, _idleState);
+        _attackState.AddTransition(states.Reload, _reloadState);
+
+        _reloadState.AddTransition(states.Idle, _idleState);
+        _reloadState.AddTransition(states.Attack, _attackState);
+        _reloadState.AddTransition(states.Buff, _buffState);
+        _reloadState.AddTransition(states.Lead, _leadState);
+        _reloadState.AddTransition(states.Escape, _escapeState);
 
         _buffState.AddTransition(states.Lead, _leadState);
         _buffState.AddTransition(states.Attack, _attackState);
         _buffState.AddTransition(states.Escape, _escapeState);
         _buffState.AddTransition(states.Idle, _idleState);
+        _buffState.AddTransition(states.Reload, _reloadState);
 
         _escapeState.AddTransition(states.Idle, _idleState);
+        _escapeState.AddTransition(states.Lead, _leadState);
 
         fsm.SetState(_idleState);
     }
@@ -88,8 +102,10 @@ public class Leader : Being
         _attackAction = new ActionNode(AttackAction);
         _buffAction = new ActionNode(BuffAction);
         _escapeAction = new ActionNode(EscapeAction);
+        _reloadAction = new ActionNode(ReloadAction);
 
-        var questionInSight = new QuestionNode(InSightQuestion, _attackAction, _idleAction);
+        var questionCanShoot = new QuestionNode(CanShootQuestion, _attackAction, _reloadAction);
+        var questionInSight = new QuestionNode(InSightQuestion, questionCanShoot, _idleAction);
         var questionIsInMid = new QuestionNode(IsInMidQuestion, questionInSight, _leadAction);
         var questionBuff = new QuestionNode(BuffAvailableQuestion, _buffAction, questionIsInMid);
         var questionSafe = new QuestionNode(SafeDistanceQuestion,_idleAction, _escapeAction);
@@ -120,6 +136,11 @@ public class Leader : Being
     public void EscapeAction()
     {
         fsm.Transition(states.Escape);
+    }
+
+    public void ReloadAction()
+    {
+        fsm.Transition(states.Reload);
     }
     #endregion
 
@@ -162,6 +183,11 @@ public class Leader : Being
         return flags.safeDistance;
     }
 
+    public bool CanShootQuestion()
+    {
+        return flags.canShoot;
+    }
+
     public bool BuffAvailableQuestion()
     {
         return flags.buffAvailable;
@@ -187,6 +213,7 @@ public class Leader : Being
         dir += (EnemyTeamCenter() - transform.position).normalized;
         dir += obstacleAvoidance.GetDir();
         dir.y = 0;
+        directionForGizmo = dir;
         transform.position += dir * speed * Time.deltaTime;
     }
     public override void Escape()
@@ -197,6 +224,7 @@ public class Leader : Being
         dir += obstacleAvoidance.GetDir();
         dir = dir * -1;
         dir.y = 0;
+        directionForGizmo = dir;
         transform.position += dir * speed * Time.deltaTime;
         transform.LookAt(EnemyTeamCenter() * -1);
     }
@@ -233,6 +261,7 @@ public class Leader : Being
     public override void Idle()
     {
         mesh.material = idleMaterial;
+        rb.isKinematic = true;
         if (flags.escape == false && flags.inMiddle)
             LookAtEnemy();
     }

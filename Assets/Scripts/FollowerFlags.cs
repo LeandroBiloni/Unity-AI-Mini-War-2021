@@ -9,5 +9,5 @@ public class FollowerFlags
     public bool safeDistance = false;
     public bool escape = false;
     public bool isCloseToLeader = false;
-    public bool inCooldown = false;
+    public bool canShoot = false;
 }
